@@ -1,10 +1,13 @@
-import React, {useState} from "react";
+import React, {useState,useEffect} from "react";
 import {Link} from "react-router-dom";
 import {withFormik, Form, Field} from "formik";
 import * as Yup from "yup";
 
-const loginForm = ({ values, touched, errors, status }) =>{
-    
+const LoginForm = ({ values, touched, errors, status }) =>{
+    const [loginData,setLoginData] = useState([]);
+    useEffect(() => {
+        status && setLoginData(loginData => [...loginData, status])
+      },[status])
     return(
         <div className="loginForm">
             <Form>
@@ -12,18 +15,21 @@ const loginForm = ({ values, touched, errors, status }) =>{
                     <h2>Username:</h2>
                     <Field type="text" name="username"/>
                 </label>
-                {touched.name && errors.name && (
-                    <p className="error">{errors.name}</p>
+                {touched.username && errors.username && (
+                    <p className="error">{errors.username}</p>
                 )}
                 <label>
                     <h2>Password:</h2>
-                    <Field type="text" name="password"/>
+                    <Field type="password" name="password"/>
                 </label>
-                {touched.name && errors.name && (
-                    <p className="error">{errors.name}</p>
+                {touched.password && errors.password && (
+                    <p className="error">{errors.password}</p>
                 )}
             </Form>
+            <button type="submit">Submit!</button>
             <Link to="/register">Create new account.</Link>
+
+
 
         </div>
     )
@@ -36,10 +42,10 @@ const loginFormik = withFormik({
       };
     },
     validationSchema: Yup.object().shape({
-        name: Yup.string().required(),
+        username: Yup.string().required(),
         password:Yup.string().required()
       })
-  })(loginForm);
+  })(LoginForm);
 
 
 
