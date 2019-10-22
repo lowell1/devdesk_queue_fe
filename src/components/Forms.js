@@ -6,10 +6,10 @@ import * as Yup from "yup";
 import axiosWithAuth from "../axiosWithAuth";
 
 const LoginForm = ({ values, touched, errors, status }) =>{
-    const [loginData,setLoginData] = useState([]);
-    useEffect(() => {
-        status && setLoginData(loginData => [...loginData, status])
-      },[status])
+    // const [loginData,setLoginData] = useState([]);
+    // useEffect(() => {
+    //     status && setLoginData(loginData => [...loginData, status])
+    //   },[status])
     return(
         <div className="loginForm">
             <Form>
@@ -52,7 +52,7 @@ const loginFormik = withFormik({
         username: Yup.string().required(),
         password:Yup.string().required()
       }),
-    handleSubmit(values, {setStatus}) { 
+    handleSubmit(values, {setStatus, props}) { 
         // axios.post('https://reqres.in/api/users/', values) 
         //       .then(res => { 
         //           setStatus(res.data); 
@@ -64,9 +64,10 @@ const loginFormik = withFormik({
         .then(resp => {
             // console.log("Success:", resp.data);
             localStorage.setItem("token", resp.data.token);
+            props.history.push("/");
         })
         .catch(err => {
-            console.log("Error:",err.response);
+            console.log("Error:",err.response.data.message);
         })
     }
   })(LoginForm);
@@ -93,15 +94,15 @@ const loginFormik = withFormik({
                 {touched.password && errors.password && (
                     <p className="error">{errors.password}</p>
                 )}
-                <Field component="select" className="food-select" name="diet">
+                <br/><br/>
+                <Field component="select" className="role-select" name="role">
                     <option>Choose a role.</option>
                     <option value="student">Student</option>
                     <option value="helper">Helper</option>
                 </Field>
+                <br/><br/>
+                <button type="submit">Create Account</button>
             </Form>
-            <button type="submit">Create Account</button>
-
-
         </div>
     )
 }
@@ -116,7 +117,18 @@ const registerFormik = withFormik({
     validationSchema: Yup.object().shape({
         username: Yup.string().required(),
         password:Yup.string().required()
-      })
+      }),
+      handleSubmit(values, {setStatus, props}) { 
+          console.log("values = ", values);
+        axiosWithAuth().post("/auth/register", values)
+        .then(resp => {
+            console.log(resp.data);
+            props.history.push("/login");
+        })
+        .catch(err => {
+            console.log("Error:",err.response.data.message);
+        })
+    }
   })(RegisterForm);
 
   const TicketForm = ({ values, touched, errors, status }) =>{
