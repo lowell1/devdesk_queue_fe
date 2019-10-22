@@ -2,7 +2,8 @@ import React, {useState,useEffect} from "react";
 import {Link} from "react-router-dom";
 import {withFormik, Form, Field} from "formik";
 import * as Yup from "yup";
-import axios from "axios";
+// import axios from "axios";
+import axiosWithAuth from "../axiosWithAuth";
 
 const LoginForm = ({ values, touched, errors, status }) =>{
     const [loginData,setLoginData] = useState([]);
@@ -26,16 +27,16 @@ const LoginForm = ({ values, touched, errors, status }) =>{
                 {touched.password && errors.password && (
                     <p className="error">{errors.password}</p>
                 )}
+                <button type="submit">Submit!</button>
             </Form>
-            <button type="submit">Submit!</button>
             <Link to="/register">Create new account.</Link>
 
-            {loginData.map(user => (
+            {/* {loginData.map(user => (
                 <ul key={user.id}>
                 <li>Name: {user.username}</li>
                 <li>Password: {user.password}</li>
                 </ul>
-            ))}
+            ))} */}
 
         </div>
     )
@@ -52,10 +53,22 @@ const loginFormik = withFormik({
         password:Yup.string().required()
       }),
     handleSubmit(values, {setStatus}) { 
-        axios.post('https://reqres.in/api/users/', values) 
-              .then(res => { setStatus(res.data); }) 
-              .catch(err => console.log(err.response));
-        }
+        // axios.post('https://reqres.in/api/users/', values) 
+        //       .then(res => { 
+        //           setStatus(res.data); 
+        //           console.log(res.data);
+        //         }) 
+        //       .catch(err => console.log(err.response));
+        // }
+        axiosWithAuth().post("/auth/login", values)
+        .then(resp => {
+            // console.log("Success:", resp.data);
+            localStorage.setItem("token", resp.data.token);
+        })
+        .catch(err => {
+            console.log("Error:",err.response);
+        })
+    }
   })(LoginForm);
 
   const RegisterForm = ({ values, touched, errors, status }) =>{
