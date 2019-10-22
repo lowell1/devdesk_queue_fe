@@ -154,9 +154,13 @@ const registerFormik = withFormik({
                 )}
                 <Field type="tried" name="tried"placeholder="What have you tried?"/>
                 <Field component="select" className="category-select" name="category">
-                    <option>Choose a role.</option>
-                    <option value="student">Student</option>
-                    <option value="helper">Helper</option>
+                    <option>Choose a category.</option>
+                    <option value="React">React</option>
+                    <option value="HTML">HTML</option>
+                    <option value="CSS">CSS</option>
+                    <option value="Redux">Redux</option>
+                    <option value="Node">Node</option>
+                    <option value="Javascript">Javascript</option>
                 </Field>
             </Form>
             <button type="submit">Create new ticket.</button>
@@ -165,7 +169,7 @@ const registerFormik = withFormik({
         </div>
     )
 }
-const ticketFormik = withFormik({
+const TicketFormik = withFormik({
     mapPropsToValues({ title, description,tried,category}) {
       return {
         title: title || "",
@@ -182,4 +186,4 @@ const ticketFormik = withFormik({
 
 
 
-export {loginFormik,registerFormik,ticketFormik};
+export {loginFormik,registerFormik,TicketFormik};
