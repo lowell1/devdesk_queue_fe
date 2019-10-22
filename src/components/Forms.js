@@ -100,6 +100,9 @@ const loginFormik = withFormik({
                     <option value="student">Student</option>
                     <option value="helper">Helper</option>
                 </Field>
+                {touched.role && errors.role && (
+                    <p className="error">{errors.role}</p>
+                )}
                 <br/><br/>
                 <button type="submit">Create Account</button>
             </Form>
@@ -116,7 +119,8 @@ const registerFormik = withFormik({
     },
     validationSchema: Yup.object().shape({
         username: Yup.string().required(),
-        password:Yup.string().required()
+        password:Yup.string().required(),
+        role:Yup.string().required()
       }),
       handleSubmit(values, {setStatus, props}) { 
           console.log("values = ", values);
@@ -141,14 +145,15 @@ const registerFormik = withFormik({
             <Form>
                 
                     <Field type="text" name="title" placeholder="Title"/>
-                {touched.username && errors.username && (
-                    <p className="error">{errors.username}</p>
+                {touched.title && errors.title && (
+                    <p className="error">{errors.title}</p>
                 )}
-                    <Field type="password" name="password"/>
-                {touched.password && errors.password && (
-                    <p className="error">{errors.password}</p>
+                    <Field type="description" name="description" placeholder="Description of your problem"/>
+                {touched.description && errors.description && (
+                    <p className="error">{errors.description}</p>
                 )}
-                <Field component="select" className="food-select" name="diet">
+                <Field type="tried" name="tried"placeholder="What have you tried?"/>
+                <Field component="select" className="category-select" name="category">
                     <option>Choose a role.</option>
                     <option value="student">Student</option>
                     <option value="helper">Helper</option>
@@ -161,18 +166,19 @@ const registerFormik = withFormik({
     )
 }
 const ticketFormik = withFormik({
-    mapPropsToValues({ username, password,role}) {
+    mapPropsToValues({ title, description,tried,category}) {
       return {
-        username: username || "",
-        password: password || "",
-        role: role || ""
+        title: title || "",
+        description: description || "",
+        tried: tried || "",
+        category: category || ""
       };
     },
     validationSchema: Yup.object().shape({
-        username: Yup.string().required(),
-        password:Yup.string().required()
+        title: Yup.string().required(),
+        description:Yup.string().required()
       })
-  })(RegisterForm);
+  })(TicketForm);
 
 
 
