@@ -45,7 +45,6 @@ function App(props) {
 }
 
 const mapStateToProps = state => {
-  console.log("state =", state);
   return {loginStatus: state.loginStatus};
 }
 
