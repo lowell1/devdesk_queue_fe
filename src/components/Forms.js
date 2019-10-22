@@ -1,9 +1,12 @@
 import React, {useState,useEffect} from "react";
 import {Link} from "react-router-dom";
 import {withFormik, Form, Field} from "formik";
+import {connect} from "react-redux";
+import {setLoginStatus} from "../actions";
 import * as Yup from "yup";
 // import axios from "axios";
 import axiosWithAuth from "../axiosWithAuth";
+// import {reactLocalStorage} from "reactjs-localstorage";
 
 const LoginForm = ({ values, touched, errors, status }) =>{
     // const [loginData,setLoginData] = useState([]);
@@ -63,11 +66,14 @@ const loginFormik = withFormik({
         axiosWithAuth().post("/auth/login", values)
         .then(resp => {
             // console.log("Success:", resp.data);
+            console.log(resp.data);
+            localStorage.setItem("userInfo", JSON.stringify({name: resp.data.username, role: resp.data.role}));
             localStorage.setItem("token", resp.data.token);
+            props.setLoginStatus(true);
             props.history.push("/");
         })
         .catch(err => {
-            console.log("Error:",err.response.data.message);
+            console.log("Error:",err);
         })
     }
   })(LoginForm);
@@ -185,5 +191,10 @@ const TicketFormik = withFormik({
   })(TicketForm);
 
 
+const connectLoginFormik = connect(null, {setLoginStatus})(loginFormik);
 
-export {loginFormik,registerFormik,TicketFormik};
+export {
+    connectLoginFormik,
+    registerFormik,
+    ticketFormik
+};
