@@ -1,6 +1,8 @@
 import React from "react";
 import {connect} from "react-redux";
-import {deleteTicket} from "../actions";
+// import {deleteTicket} from "../actions";
+import {updateTickets} from "../actions";
+import axiosWithAuth from "../axiosWithAuth";
 
 import {
     Card, CardText, CardBody,
@@ -8,6 +10,19 @@ import {
   } from 'reactstrap';
 
 const TicketCard = (props)=>{
+    const deleteTicket = () => {
+        axiosWithAuth().delete(`/users/tickets/${props.object.id}`)
+        .then(resp => {
+            console.log(resp);
+        })
+        .catch(err => {
+            console.log(err.response.data.message);
+        })
+
+        props.updateTickets();
+    }
+
+
     const postSolution = ()=>{
         if(props.object.resolved === true){
             return(
@@ -27,7 +42,8 @@ const TicketCard = (props)=>{
         <div>
             <Card>
                 <CardBody>
-                    <Button onClick={() => props.deleteTicket(props.object.id, props.object.resolved)}>Delete</Button>
+                    {/* <Button onClick={() => props.deleteTicket(props.object.id, props.object.resolved)}>Delete</Button> */}
+                    <Button onClick={() => deleteTicket()}>Delete</Button>
                     <CardTitle>{props.object.title}</CardTitle>
                     <CardSubtitle>Category:{props.object.category}</CardSubtitle>
                     <div className="text-section">
@@ -45,4 +61,5 @@ const TicketCard = (props)=>{
     )
 }
 
-export default connect(null, {deleteTicket})(TicketCard);
+// export default connect(null, {deleteTicket})(TicketCard);
+export default connect(null, {updateTickets})(TicketCard);

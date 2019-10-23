@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {connect} from "react-redux";
 import {updateTickets} from "../actions";
 import {ResolveFormik} from "./Forms";
+import axiosWithAuth from "../axiosWithAuth";
 
 import {
     Card, CardText, CardBody,
@@ -9,10 +10,21 @@ import {
     ModalHeader, ModalBody, ModalFooter 
   } from 'reactstrap';
 
-const TicketHelperCard = (props)=>{
+  
+  const TicketHelperCard = (props)=>{
     const [modal, setModal] = useState(false);
-
+    
     const toggle = () => setModal(!modal);
+    
+    const assignTicket = () => {
+        axiosWithAuth().post(`/users/tickets/${props.object.id}/assign`)
+        .then(resp => {
+            props.updateTickets();
+        })
+        .catch(err => {
+            console.log(err.response.data.message);
+        })
+    }
 
     return(
         <div>
