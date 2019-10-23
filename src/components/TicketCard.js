@@ -1,5 +1,7 @@
 import React from "react";
-import Dashboard from "./Dashboard"
+import {connect} from "react-redux";
+import {deleteTicket} from "../actions";
+
 import {
     Card, CardText, CardBody,
     CardTitle, CardSubtitle, Button
@@ -25,6 +27,7 @@ const TicketCard = (props)=>{
         <div>
             <Card>
                 <CardBody>
+                    <Button onClick={() => props.deleteTicket(props.object.id, props.object.resolved)}>Delete</Button>
                     <CardTitle>{props.object.title}</CardTitle>
                     <CardSubtitle>Category:{props.object.category}</CardSubtitle>
                     <div className="text-section">
@@ -42,4 +45,4 @@ const TicketCard = (props)=>{
     )
 }
 
-export default TicketCard;
+export default connect(null, {deleteTicket})(TicketCard);

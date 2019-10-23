@@ -4,6 +4,9 @@ import {
     FETCH_TICKETS_START,
     FETCH_TICKETS_SUCCESS,
     FETCH_TICKETS_FAILURE,
+    DELETE_TICKET_START,
+    DELETE_TICKET_FAILURE,
+    DELETE_TICKET_SUCCESS
 } from "../actions";
 
 const initialState = {
@@ -12,7 +15,9 @@ const initialState = {
     closedTickets: [],
     openTickets: [],
     isFetchingTickets: false,
-    ticketsFetchError: ""
+    ticketsFetchError: "",
+    isDeletingTicket: false,
+    deleteTicketError: ""
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -28,6 +33,19 @@ const rootReducer = (state = initialState, action) => {
         case FETCH_TICKETS_SUCCESS:
             return {...state, isFetchingTickets: false, openTickets: action.payload.openTickets, 
                 closedTickets: action.payload.closedTickets};
+        case DELETE_TICKET_START:
+            return {...state, isDeletingTicket: true, deleteTicketError: ""}
+        case DELETE_TICKET_SUCCESS:
+            const stateCopy = {...state}
+            const ticketIdx = action.payload.isTicketOpen ? 
+                                state.openTickets.findIndex(ticket => action.payload.ticketId) :
+                                state.closedTickets.findIndex(ticket => action.payload.ticketId);
+
+            action.paylod.isTicketOpen ?
+            stateCopy.openTickets.splice(ticketIdx, 1):
+            stateCopy.closedTickets.splice(ticketIdx, 1);
+        case DELETE_TICKET_FAILURE:
+            return {...state, isDeletingTicket: false, deleteTicketError: action.payload};
         default:
             return state;
     }

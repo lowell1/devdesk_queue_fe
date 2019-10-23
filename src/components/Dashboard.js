@@ -28,14 +28,14 @@ const Dashboard = props => {
                 state.showOpenTickets &&
                 <div className="ticket-list">
                     <p>Open tickets:</p>    
-                    {props.openTickets.map(ticketInfo => <TicketCard object={ticketInfo}/>)}
+                    {props.openTickets.map((ticketInfo,idx) => <TicketCard key={idx} object={ticketInfo}/>)}
                 </div>
             }
             {
                 state.showClosedTickets &&
                 <div className="ticket-list">
                     <p>Closed tickets:</p>    
-                    {props.closedTickets.map(ticketInfo => <TicketCard object={ticketInfo}/>)}
+                    {props.closedTickets.map((ticketInfo,idx) => <TicketCard key={idx} object={ticketInfo}/>)}
                 </div>
             }
             {state.showClosedTickets && <p>Closed tickets:</p>}

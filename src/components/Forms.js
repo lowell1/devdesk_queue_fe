@@ -67,7 +67,7 @@ const LoginFormik = withFormik({
         .then(resp => {
             // console.log("Success:", resp.data);
             console.log(resp.data);
-            localStorage.setItem("userInfo", JSON.stringify({name: resp.data.username, role: resp.data.role}));
+            localStorage.setItem("userInfo", JSON.stringify({name: resp.data.username, role: resp.data.role, id: resp.data.id}));
             localStorage.setItem("token", resp.data.token);
             props.setLoginStatus(true);
             props.history.push("/");
