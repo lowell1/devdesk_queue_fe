@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import {Route, Link} from "react-router-dom";
-import {connectLoginFormik as loginFormik,registerFormik} from "./components/Forms";
+import {ConnectLoginFormik, RegisterFormik} from "./components/Forms";
 import Dashboard from "./components/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
 import SignOut from "./components/SignOut";
@@ -36,9 +36,9 @@ function App(props) {
           )
         }
 
-      <Route path="/login" component={loginFormik}/>
+      <Route path="/login" component={ConnectLoginFormik}/>
       <Route path="/sign_out" component={SignOut}/>
-      <Route path="/register" component={registerFormik}/>
+      <Route path="/register" component={RegisterFormik}/>
       <PrivateRoute exact path="/" component={Dashboard}/>
     </div>
   );
