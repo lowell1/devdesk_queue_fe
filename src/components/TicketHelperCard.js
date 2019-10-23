@@ -19,11 +19,23 @@ import {
     const assignTicket = () => {
         axiosWithAuth().post(`/users/tickets/${props.object.id}/assign`)
         .then(resp => {
-            props.updateTickets();
+            console.log(resp);
         })
         .catch(err => {
             console.log(err.response.data.message);
         })
+        props.updateTickets();
+    }
+    
+    const reassignTicket = () => {
+        axiosWithAuth().put(`/users/tickets/${props.object.id}/reassign`)
+        .then(resp => {
+            console.log(resp);
+        })
+        .catch(err => {
+            console.log(err.response.data.message);
+        })
+        props.updateTickets();
     }
 
     return(
@@ -43,14 +55,14 @@ import {
                     {
                         props.object.assigned &&
                         <>
-                            <Button>Reassign</Button>
+                            <Button onClick={reassignTicket}>Reassign</Button>
                             <Button>Resolve Ticket</Button>
                         </>
                     }
                     {
                         props.object.assigned ||
                         <>
-                            <Button>Assign</Button>
+                            <Button onClick={assignTicket}>Assign</Button>
                         </>
                     }
                     <Modal isOpen={modal} toggle={toggle} className="ticketModal">
@@ -67,4 +79,4 @@ import {
     )
 }
 
-export default connect(null, updateTickets)(TicketHelperCard);
+export default connect(null, {updateTickets})(TicketHelperCard);
