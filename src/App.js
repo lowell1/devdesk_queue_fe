@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {Route, Link} from "react-router-dom";
+import {Route, NavLink} from "react-router-dom";
 import {ConnectLoginFormik, RegisterFormik} from "./components/Forms";
 import PrivateRoute from "./components/PrivateRoute";
 import SignOut from "./components/SignOut";
@@ -16,31 +16,33 @@ function App(props) {
 
   return (
     <div className="App">
+      <div className="links">
         {
           props.loginStatus ?
           <ul>
             <li>
-              <Link to="/">Dashboard</Link>
+              <NavLink to="/">Dashboard</NavLink>
             </li>
             <li>
-              <Link to="/sign_out">Sign out</Link>
+              <NavLink to="/sign_out">Sign out</NavLink>
             </li>
             <li>
-              <Link to="/new_ticket">Create new ticket</Link>
+              <NavLink to="/new_ticket">Create new ticket</NavLink>
             </li>
           </ul>
           :
           (
           <ul>
             <li>
-            <Link to="/login">Login</Link>
+            <NavLink to="/login">Login</NavLink>
             </li>
             <li>
-              <Link to="/register">Register</Link>
+              <NavLink to="/register">Register</NavLink>
             </li>
           </ul>
           )
         }
+      </div>
 
       <Route path="/login" component={ConnectLoginFormik}/>
       <Route path="/sign_out" component={SignOut}/>
