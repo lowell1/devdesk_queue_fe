@@ -1,37 +1,50 @@
-import React, {useState} from "react";
-import TicketCard from "./TicketCard"
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import {TicketFormik} from "./Forms";
+import React, {useState, useEffect} from "react";
+import {connect} from "react-redux";
+import {updateTickets} from "../actions/";
+import TicketCard from "./TicketCard";
 
-const Dashboard = () => {
-    const testObj = {
-        title: 'Send Help',
-        description: 'I dont know what to do',
-        tried: 'I tried to do something',
-        category: 'HTML',
-        resolved: true,
-        solution:'I found something that helped',
-        assigned: false
-    };
-    const [modal, setModal] = useState(false);
+const Dashboard = props => {
+    const [state, setState] = useState({showOpenTickets: true, showClosedTickets: false})
+    const updateTickets = props.updateTickets;
 
-    const toggle = () => setModal(!modal);
+    useEffect(() => {
+        updateTickets();
+    }, [updateTickets])
+    
+    const handleCheck = e => {
+        setState({...state, [e.target.name]: e.target.checked})
+    }
+
     return (
-        <div>
-            <h1>Dashboard</h1>
-            <TicketCard object={testObj}/>
-            <Button onClick={toggle}>Create Ticket</Button>
-            <Modal isOpen={modal} toggle={toggle} className="ticketModal">
-                <ModalHeader toggle={toggle}>Create a Ticket</ModalHeader>
-                <ModalBody>
-                    <TicketFormik/>
-                </ModalBody>
-                <ModalFooter>
-                    <Button color="secondary" onClick={toggle}>Cancel</Button>
-                </ModalFooter>
-            </Modal>
+        <div className="dashboard">
+            <h3>Hello {props.userInfo.name}</h3>
+            <label>
+               <input type="checkbox" name="showOpenTickets" checked={state.showOpenTickets} onChange={e => handleCheck(e)}/>Show open tickets
+            </label><br></br>
+            <label>
+                <input type="checkbox" name="showClosedTickets" checked={state.showClosedTickets} onChange={e => handleCheck(e)}/>Show closed tickets
+            </label>
+            {
+                state.showOpenTickets &&
+                <div className="ticket-list">
+                    <p>Open tickets:</p>    
+                    {props.openTickets.map((ticketInfo,idx) => <TicketCard key={idx} object={ticketInfo}/>)}
+                </div>
+            }
+            {
+                state.showClosedTickets &&
+                <div className="ticket-list">
+                    <p>Closed tickets:</p>    
+                    {props.closedTickets.map((ticketInfo,idx) => <TicketCard key={idx} object={ticketInfo}/>)}
+                </div>
+            }
+            {state.showClosedTickets && <p>Closed tickets:</p>}
         </div>
     )
 }
 
-export default Dashboard;
+const mapStateToProps = state => {
+    return {userInfo: state.userInfo, openTickets: state.openTickets, closedTickets: state.closedTickets};
+}
+
+export default connect(mapStateToProps, {updateTickets})(Dashboard);

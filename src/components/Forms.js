@@ -44,7 +44,7 @@ const LoginForm = ({ values, touched, errors, status }) =>{
         </div>
     )
 }
-const loginFormik = withFormik({
+const LoginFormik = withFormik({
     mapPropsToValues({ username, password}) {
       return {
         username: username || "",
@@ -67,7 +67,7 @@ const loginFormik = withFormik({
         .then(resp => {
             // console.log("Success:", resp.data);
             console.log(resp.data);
-            localStorage.setItem("userInfo", JSON.stringify({name: resp.data.username, role: resp.data.role}));
+            localStorage.setItem("userInfo", JSON.stringify({name: resp.data.username, role: resp.data.role, id: resp.data.id}));
             localStorage.setItem("token", resp.data.token);
             props.setLoginStatus(true);
             props.history.push("/");
@@ -115,7 +115,7 @@ const loginFormik = withFormik({
         </div>
     )
 }
-const registerFormik = withFormik({
+const RegisterFormik = withFormik({
     mapPropsToValues({ username, password,role}) {
       return {
         username: username || "",
@@ -154,13 +154,16 @@ const registerFormik = withFormik({
                 {touched.title && errors.title && (
                     <p className="error">{errors.title}</p>
                 )}
-                    <Field type="description" name="description" placeholder="Description of your problem"/>
+                    <Field type="text" name="description" placeholder="Description of your problem"/>
                 {touched.description && errors.description && (
                     <p className="error">{errors.description}</p>
                 )}
-                <Field type="tried" name="tried"placeholder="What have you tried?"/>
+                <Field type="text" name="tried"placeholder="What have you tried?"/>
+                {touched.tried && errors.tried && (
+                    <p className="error">{errors.tried}</p>
+                )}
                 <Field component="select" className="category-select" name="category">
-                    <option>Choose a category.</option>
+                    <option value="">Choose a category.</option>
                     <option value="React">React</option>
                     <option value="HTML">HTML</option>
                     <option value="CSS">CSS</option>
@@ -168,8 +171,13 @@ const registerFormik = withFormik({
                     <option value="Node">Node</option>
                     <option value="Javascript">Javascript</option>
                 </Field>
+                {
+                    touched.category && errors.category && (
+                        <p className="error">{errors.category}</p>
+                    )
+                }
+                <button type="submit">Create new ticket.</button>
             </Form>
-            <button type="submit">Create new ticket.</button>
 
 
         </div>
@@ -186,15 +194,27 @@ const TicketFormik = withFormik({
     },
     validationSchema: Yup.object().shape({
         title: Yup.string().required(),
-        description:Yup.string().required()
-      })
+        description:Yup.string().required(),
+        tried: Yup.string().required(),
+        category: Yup.string().required()
+      }),
+      handleSubmit(values) {
+          console.log(values);
+          axiosWithAuth().post("/tickets", values)
+          .then((resp) => {
+              console.log("success", resp);
+          })
+          .catch((err) => {
+              console.log("Failed to send ticket: ", err.response.data.message);
+          });
+      }
   })(TicketForm);
 
 
-const connectLoginFormik = connect(null, {setLoginStatus})(loginFormik);
+const ConnectLoginFormik = connect(null, {setLoginStatus})(LoginFormik);
 
 export {
-    connectLoginFormik,
-    registerFormik,
-    ticketFormik
+    ConnectLoginFormik,
+    RegisterFormik,
+    TicketFormik
 };
