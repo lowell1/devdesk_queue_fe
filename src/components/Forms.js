@@ -210,11 +210,53 @@ const TicketFormik = withFormik({
       }
   })(TicketForm);
 
+  const ResolveForm = ({ values, touched, errors, status }) =>{
+    const [resolveData,setResolveData] = useState([]);
+    useEffect(() => {
+        status && setResolveData(resolveData => [...resolveData, status])
+      },[status])
+    return(
+        <div className="resolveForm">
+            <Form>
+                
+                    <Field type="text" name="solution" placeholder="Enter solution here"/>
+                {touched.solution && errors.solution && (
+                    <p className="error">{errors.solution}</p>
+                )}
+                <button type="submit">Resolve</button>
+            </Form>
+
+
+        </div>
+    )
+}
+const ResolveFormik = withFormik({
+    mapPropsToValues({ solution}) {
+      return {
+        solution: solution || "",
+      };
+    },
+    validationSchema: Yup.object().shape({
+        solution: Yup.string().required(),
+      }),
+      handleSubmit(values) {
+          console.log(values);
+        //   axiosWithAuth().post("/tickets", values)
+        //   .then((resp) => {
+        //       console.log("success", resp);
+        //   })
+        //   .catch((err) => {
+        //       console.log("Failed to send ticket: ", err.response.data.message);
+        //   });
+      }
+  })(ResolveForm);
+
 
 const ConnectLoginFormik = connect(null, {setLoginStatus})(LoginFormik);
 
 export {
     ConnectLoginFormik,
     RegisterFormik,
-    TicketFormik
+    TicketFormik,
+    ResolveFormik
 };
