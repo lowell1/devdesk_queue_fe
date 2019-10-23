@@ -20,27 +20,35 @@ import {
         axiosWithAuth().post(`/users/tickets/${props.object.id}/assign`)
         .then(resp => {
             console.log(resp);
+            props.updateTickets();
         })
         .catch(err => {
             console.log(err.response.data.message);
         })
-        props.updateTickets();
     }
     
     const reassignTicket = () => {
         axiosWithAuth().put(`/users/tickets/${props.object.id}/reassign`)
         .then(resp => {
             console.log(resp);
+            props.updateTickets();
         })
         .catch(err => {
             console.log(err.response.data.message);
         })
-        props.updateTickets();
     }
 
-    // const resolveTicket = resolution => {
-    //     ax
-    // }
+    const resolveTicket = resolution => {
+        console.log("resolution = ", resolution);
+        axiosWithAuth().put(`/users/tickets/${props.object.id}/resolve`, {solution: resolution})
+        .then(resp => {
+            console.log(resp);
+            props.updateTickets();
+        })
+        .catch(err => {
+            console.log(err.response.data.message);
+        })
+    }
 
     return(
         <div>
@@ -72,7 +80,7 @@ import {
                     <Modal isOpen={modal} toggle={toggle} className="ticketModal">
                         <ModalHeader toggle={toggle}>Resolve:{props.object.title}</ModalHeader>
                         <ModalBody>
-                            <ResolveFormik/>
+                            <ResolveFormik resolveTicket={resolveTicket}/>
                         </ModalBody>
                         <ModalFooter>
                         </ModalFooter>
