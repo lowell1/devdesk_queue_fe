@@ -12,8 +12,12 @@ import {
 const initialState = {
     loginStatus: false,
     userInfo: {},
+    //tickets to show to users
     closedTickets: [],
     openTickets: [],
+    //tickets to show to helpers
+    assignedTickets: [],
+    unassignedTickets: [],
     isFetchingTickets: false,
     ticketsFetchError: "",
     isDeletingTicket: false,
@@ -31,8 +35,14 @@ const rootReducer = (state = initialState, action) => {
         case FETCH_TICKETS_FAILURE:
             return {...state, isFetchingTickets: false, ticketsFetchError: action.payload}
         case FETCH_TICKETS_SUCCESS:
-            return {...state, isFetchingTickets: false, openTickets: action.payload.openTickets, 
-                closedTickets: action.payload.closedTickets};
+            return {
+                ...state, 
+                isFetchingTickets: false, 
+                openTickets: action.payload.openTickets, 
+                closedTickets: action.payload.closedTickets,
+                assignedTickets: action.payload.assignedTickets,
+                unassignedTickets: action.payload.unassignedTickets
+            };
         case DELETE_TICKET_START:
             return {...state, isDeletingTicket: true, deleteTicketError: ""}
         case DELETE_TICKET_SUCCESS:
@@ -44,6 +54,7 @@ const rootReducer = (state = initialState, action) => {
             action.paylod.isTicketOpen ?
             stateCopy.openTickets.splice(ticketIdx, 1):
             stateCopy.closedTickets.splice(ticketIdx, 1);
+            return stateCopy;
         case DELETE_TICKET_FAILURE:
             return {...state, isDeletingTicket: false, deleteTicketError: action.payload};
         default:
