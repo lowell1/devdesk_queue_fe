@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useState} from "react";
 import {connect} from "react-redux";
-import {deleteTicket} from "../actions";
+import {updateTickets} from "../actions";
 import {ResolveFormik} from "./Forms";
 
 import {
@@ -28,8 +28,19 @@ const TicketHelperCard = (props)=>{
                         <CardSubtitle>What they tried:</CardSubtitle>
                         <CardText>{props.object.tried}</CardText>
                     </div>
-                    <Button>Reassign</Button>
-                    <Button>Resolve Ticket</Button>
+                    {
+                        props.object.assigned &&
+                        <>
+                            <Button>Reassign</Button>
+                            <Button>Resolve Ticket</Button>
+                        </>
+                    }
+                    {
+                        props.object.assigned ||
+                        <>
+                            <Button>Assign</Button>
+                        </>
+                    }
                     <Modal isOpen={modal} toggle={toggle} className="ticketModal">
                         <ModalHeader toggle={toggle}>Resolve:{props.object.title}</ModalHeader>
                         <ModalBody>
@@ -44,4 +55,4 @@ const TicketHelperCard = (props)=>{
     )
 }
 
-export default TicketHelperCard;
+export default connect(null, updateTickets)(TicketHelperCard);
