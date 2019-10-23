@@ -38,6 +38,10 @@ import {
         props.updateTickets();
     }
 
+    // const resolveTicket = resolution => {
+    //     ax
+    // }
+
     return(
         <div>
             <Card>
@@ -56,7 +60,7 @@ import {
                         props.object.assigned &&
                         <>
                             <Button onClick={reassignTicket}>Reassign</Button>
-                            <Button>Resolve Ticket</Button>
+                            <Button onClick={toggle}>Resolve Ticket</Button>
                         </>
                     }
                     {

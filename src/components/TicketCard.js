@@ -11,7 +11,7 @@ import {
 
 const TicketCard = (props)=>{
     const deleteTicket = () => {
-        axiosWithAuth().delete(`/users/tickets/${props.object.id}`)
+        axiosWithAuth().delete(`/users/tickets/${props.object.ticket_id}`)
         .then(resp => {
             console.log(resp);
         })
