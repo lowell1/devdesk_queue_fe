@@ -24,7 +24,12 @@ export const updateTickets = () => dispatch => {
     
     axiosWithAuth().get("/tickets")
     .then((resp) => {
-        dispatch({type: FETCH_TICKETS_SUCCESS, payload: resp.data});
+        const openTickets = [];
+        const closedTickets = [];
+
+        resp.data.forEach(ticket => ticket.resolved ? closedTickets.push(ticket) : openTickets.push(ticket));
+
+        dispatch({type: FETCH_TICKETS_SUCCESS, payload: {openTickets: openTickets, closedTickets: closedTickets}});
     })
     .catch((err) => {
         console.log(err.response.data.message);

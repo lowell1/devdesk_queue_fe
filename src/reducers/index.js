@@ -9,7 +9,8 @@ import {
 const initialState = {
     loginStatus: false,
     userInfo: {},
-    tickets: {},
+    closedTickets: [],
+    openTickets: [],
     isFetchingTickets: false,
     ticketsFetchError: ""
 }
@@ -25,7 +26,8 @@ const rootReducer = (state = initialState, action) => {
         case FETCH_TICKETS_FAILURE:
             return {...state, isFetchingTickets: false, ticketsFetchError: action.payload}
         case FETCH_TICKETS_SUCCESS:
-            return {...state, isFetchingTickets: false, tickets: action.payload}
+            return {...state, isFetchingTickets: false, openTickets: action.payload.openTickets, 
+                closedTickets: action.payload.closedTickets};
         default:
             return state;
     }
