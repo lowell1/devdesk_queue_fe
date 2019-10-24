@@ -140,14 +140,17 @@ const RegisterFormik = withFormik({
                 {touched.title && errors.title && (
                     <p className="error">{errors.title}</p>
                 )}
-                    <Field type="text" name="description" placeholder="Description of your problem"/>
+                <br></br>
+                    <Field component="textarea" name="description" placeholder="Description of your problem"/>
                 {touched.description && errors.description && (
                     <p className="error">{errors.description}</p>
                 )}
-                <Field type="text" name="tried"placeholder="What have you tried?"/>
+                <br></br>
+                <Field component="textarea" name="tried"placeholder="What have you tried?"/>
                 {touched.tried && errors.tried && (
                     <p className="error">{errors.tried}</p>
                 )}
+                <br></br>
                 <Field component="select" className="category-select" name="category">
                     <option value="">Choose a category.</option>
                     <option value="React">React</option>
@@ -162,6 +165,7 @@ const RegisterFormik = withFormik({
                         <p className="error">{errors.category}</p>
                     )
                 }
+                <br></br>
                 <Button type="submit" color="primary">Create new ticket.</Button>
             </Form>
 
@@ -205,10 +209,11 @@ const TicketFormik = withFormik({
         <div className="resolveForm">
             <Form>
                 
-                    <Field component="textarea" name="solution" placeholder="Enter solution here"/>
+                    <Field className="text-area" component="textarea" name="solution" placeholder="Enter solution here"/>
                 {touched.solution && errors.solution && (
                     <p className="error">{errors.solution}</p>
                 )}
+                <br></br>
                 <Button type="submit" color="primary">Resolve</Button>
             </Form>
 

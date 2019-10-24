@@ -75,14 +75,14 @@ import {
                     <CardSubtitle>Category:{props.object.category}</CardSubtitle>
                 </CardHeader>
                 <CardBody>
-                    <div className="text-section">
+                    <CardBody>
                         <CardSubtitle>Description:</CardSubtitle>
                         <CardText>{props.object.description}</CardText>
-                    </div>
-                    <div className="text-section">
+                    </CardBody>
+                    <CardBody>
                         <CardSubtitle>What they tried:</CardSubtitle>
                         <CardText>{props.object.tried}</CardText>
-                    </div>
+                    </CardBody>
                     {postSolution()}
                     <Modal isOpen={modal} toggle={toggle} className="ticketModal">
                         <ModalHeader toggle={toggle}>Resolve: {props.object.title}</ModalHeader>
