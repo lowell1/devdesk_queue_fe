@@ -1,6 +1,4 @@
-.App {
-  text-align: center;
-}
+
 
 .App .links{
   display: flex;
@@ -18,25 +16,56 @@
   align-items: center;
 }
 
+/* hui made some changes below */
 .App .loginForm{
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  
+  align-items: center;
+  width: 500px;
+  margin: 0 auto;
 }
+
 .App .loginForm form{
   display: flex;
-  justify-content: flex-start;
   flex-direction: column;
+  padding: 20px;
+  width: 50%;
+  border-radius: 10px;
+  background: #39bfff;
+}
 
+
+.loginForm form label{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color:white;
 }
 .App .loginForm form button{
-  width:20%;
+  width:100%;
   
 }
 
-.App-logo {
-  height: 40vmin;
+.App .ticket-list .card-list{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.App .dashboard{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.App .dashboard h3,p{
+  text-align: center;
+}
+.App .ticket{
+  
+  margin:2rem;
+  width: 30%;
 }
 
 .App-header {
@@ -50,10 +79,5 @@
   color: white;
 }
 
-.App-link {
-  color: #09d3ac;
-}
 
-body {
-  background-color: brown;
-}
+

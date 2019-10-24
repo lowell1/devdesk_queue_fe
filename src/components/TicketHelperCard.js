@@ -7,7 +7,8 @@ import axiosWithAuth from "../axiosWithAuth";
 import {
     Card, CardText, CardBody,
     CardTitle, CardSubtitle, Button, Modal, 
-    ModalHeader, ModalBody, ModalFooter 
+    ModalHeader, ModalBody, ModalFooter,CardHeader,
+    CardFooter 
   } from 'reactstrap';
 
   
@@ -67,11 +68,13 @@ import {
     }
 
     return(
-        <div>
+        <div className="ticket">
             <Card>
-                <CardBody>
+                <CardHeader>
                     <CardTitle>{props.object.title}</CardTitle>
                     <CardSubtitle>Category:{props.object.category}</CardSubtitle>
+                </CardHeader>
+                <CardBody>
                     <div className="text-section">
                         <CardSubtitle>Description:</CardSubtitle>
                         <CardText>{props.object.description}</CardText>
@@ -81,21 +84,6 @@ import {
                         <CardText>{props.object.tried}</CardText>
                     </div>
                     {postSolution()}
-                    {
-                        props.object.assigned &&
-                        <>
-
-                            <Button onClick={reassignTicket}>Reassign</Button>
-                      
-                            <Button onClick={toggle}>Resolve Ticket</Button>
-                        </>
-                    }
-                    {
-                        props.object.assigned ||
-                        <>
-                            <Button onClick={assignTicket}>Assign</Button>
-                        </>
-                    }
                     <Modal isOpen={modal} toggle={toggle} className="ticketModal">
                         <ModalHeader toggle={toggle}>Resolve: {props.object.title}</ModalHeader>
                         <ModalBody>
@@ -105,6 +93,23 @@ import {
                         </ModalFooter>
                     </Modal>
                 </CardBody>
+                <CardFooter>
+                {
+                        props.object.assigned &&
+                        <>
+
+                            <Button color="primary"onClick={reassignTicket}>Reassign</Button>
+                      
+                            <Button color="success"onClick={toggle}>Resolve Ticket</Button>
+                        </>
+                    }
+                    {
+                        props.object.assigned ||
+                        <>
+                            <Button color="primary" onClick={assignTicket}>Assign</Button>
+                        </>
+                    }
+                </CardFooter>
             </Card>
         </div>
     )
