@@ -22,13 +22,17 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 30%;
+  
 }
 .App .loginForm form{
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
 
+}
+.App .loginForm form button{
+  width:20%;
+  
 }
 
 .App-logo {
