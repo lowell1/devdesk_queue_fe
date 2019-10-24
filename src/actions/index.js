@@ -8,9 +8,21 @@ export const FETCH_TICKETS_START = "FETCH_USER_TICKETS_START";
 export const FETCH_TICKETS_SUCCESS = "FETCH_USER_TICKETS_SUCCESS";
 export const FETCH_TICKETS_FAILURE = "FETCH_USER_TICKETS_FAILURE";
 
-export const DELETE_TICKET_START = "DELETE_TICKET_START";
-export const DELETE_TICKET_SUCCESS = "DELETE_TICKET_SUCCESS";
-export const DELETE_TICKET_FAILURE = "DELETE_TICKET_FAILURE";
+// export const DELETE_TICKET_START = "DELETE_TICKET_START";
+// export const DELETE_TICKET_SUCCESS = "DELETE_TICKET_SUCCESS";
+// export const DELETE_TICKET_FAILURE = "DELETE_TICKET_FAILURE";
+
+// export const RESOLVE_TICKET_START = "RESOLVE_TICKET_START";
+// export const RESOLVE_TICKET_SUCCESS = "RESOLVE_TICKET_SUCCESS";
+// export const RESOLVE_TICKET_FAILURE = "RESOLVE_TICKET_FAILURE";
+
+// export const ASSIGN_TICKET_START = "ASSIGN_TICKET_START";
+// export const ASSIGN_TICKET_FAILURE = "ASSIGN_TICKET_FAILURE";
+// export const ASSIGN_TICKET_SUCCESS = "ASSIGN_TICKET_SUCCESS";
+
+// export const REASSIGN_TICKET_START = "REASSIGN_TICKET_START";
+// export const REASSIGN_TICKET_FAILURE = "REASSIGN_TICKET_FAILURE";
+// export const REASSIGN_TICKET_SUCCESS = "REASSIGN_TICKET_SUCCESS";
 
 export const setLoginStatus = loginStatus => {
     return {type: SET_LOGIN_STATUS, payload: loginStatus};    
@@ -66,15 +78,15 @@ export const updateTickets = () => dispatch => {
     })
 }
 
-export const deleteTicket = (ticketId, isTicketOpen) => dispatch => {
-    dispatch({type: DELETE_TICKET_START});
+// export const deleteTicket = (ticketId, isTicketOpen) => dispatch => {
+//     dispatch({type: DELETE_TICKET_START});
 
-    axiosWithAuth().delete(`/users/tickets/${ticketId}`)
-    .then(() => {
-        dispatch({type: DELETE_TICKET_SUCCESS, payload: {ticketId, isTicketOpen}});
-    })
-    .catch(err => {
-        console.log(err.response.data.message);
-        dispatch({type: DELETE_TICKET_FAILURE, payload: err.response.data.message});
-    })
-}
+//     axiosWithAuth().delete(`/users/tickets/${ticketId}`)
+//     .then(() => {
+//         dispatch({type: DELETE_TICKET_SUCCESS, payload: {ticketId, isTicketOpen}});
+//     })
+//     .catch(err => {
+//         console.log(err.response.data.message);
+//         dispatch({type: DELETE_TICKET_FAILURE, payload: err.response.data.message});
+//     })
+// }
