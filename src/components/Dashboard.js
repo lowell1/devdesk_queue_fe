@@ -9,6 +9,8 @@ const Dashboard = props => {
        showClosedTickets: true, showAssignedTickets: true, showUnassignedTickets: false
     });
 
+    console.log(props.closedTickets);
+
     const updateTickets = props.updateTickets;
 
     useEffect(() => {
@@ -42,7 +44,16 @@ const Dashboard = props => {
                     </label>
                  </div>
             }
-
+            {
+                 props.userInfo.role === "student" &&
+                 <div class="display-options">
+                    <label>
+                        Show answered tickets
+                        <input type="checkbox" name="showClosedTickets" checked={state.showClosedTickets}
+                        onChange={e => handleCheck(e)}/>
+                    </label>
+                 </div>
+            }
             {
                 props.userInfo.role === "student" &&
                 <div className="ticket-list">
@@ -50,10 +61,13 @@ const Dashboard = props => {
                         <p>Open tickets:</p>    
                         {props.openTickets.map((ticketInfo,idx) => <TicketCard key={`open${idx}`} object={ticketInfo}/>)}
                     </div>
-                    <div>
-                        <p>Closed tickets:</p>    
-                        {props.closedTickets.map((ticketInfo,idx) => <TicketCard key={`closed${idx}`} object={ticketInfo}/>)}
-                    </div>
+                    {
+                        state.showClosedTickets &&
+                        <div>
+                            <p>Answered tickets:</p>    
+                            {props.closedTickets.map((ticketInfo,idx) => <TicketCard key={`closed${idx}`} object={ticketInfo}/>)}
+                        </div>
+                    }
                 </div>
             }
             {

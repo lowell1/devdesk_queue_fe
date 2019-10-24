@@ -5,8 +5,6 @@ const axiosWithAuth = props => {
     const userInfo = localStorage.getItem("userInfo");
     const userId = userInfo ? JSON.parse(userInfo).id : -1;
 
-    console.log(userId);
-
     return axios.create({
         baseURL: "https://devdesk-queue-bw.herokuapp.com",
         headers: {
