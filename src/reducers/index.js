@@ -4,9 +4,9 @@ import {
     FETCH_TICKETS_START,
     FETCH_TICKETS_SUCCESS,
     FETCH_TICKETS_FAILURE,
-    DELETE_TICKET_START,
-    DELETE_TICKET_FAILURE,
-    DELETE_TICKET_SUCCESS
+    // DELETE_TICKET_START,
+    // DELETE_TICKET_FAILURE,
+    // DELETE_TICKET_SUCCESS
 } from "../actions";
 
 const initialState = {
@@ -43,20 +43,20 @@ const rootReducer = (state = initialState, action) => {
                 assignedTickets: action.payload.assignedTickets,
                 unassignedTickets: action.payload.unassignedTickets
             };
-        case DELETE_TICKET_START:
-            return {...state, isDeletingTicket: true, deleteTicketError: ""}
-        case DELETE_TICKET_SUCCESS:
-            const stateCopy = {...state}
-            const ticketIdx = action.payload.isTicketOpen ? 
-                                state.openTickets.findIndex(ticket => action.payload.ticketId) :
-                                state.closedTickets.findIndex(ticket => action.payload.ticketId);
+        // case DELETE_TICKET_START:
+        //     return {...state, isDeletingTicket: true, deleteTicketError: ""}
+        // case DELETE_TICKET_SUCCESS:
+        //     const stateCopy = {...state}
+        //     const ticketIdx = action.payload.isTicketOpen ? 
+        //                         state.openTickets.findIndex(ticket => action.payload.ticketId) :
+        //                         state.closedTickets.findIndex(ticket => action.payload.ticketId);
 
-            action.paylod.isTicketOpen ?
-            stateCopy.openTickets.splice(ticketIdx, 1):
-            stateCopy.closedTickets.splice(ticketIdx, 1);
-            return stateCopy;
-        case DELETE_TICKET_FAILURE:
-            return {...state, isDeletingTicket: false, deleteTicketError: action.payload};
+        //     action.paylod.isTicketOpen ?
+        //     stateCopy.openTickets.splice(ticketIdx, 1):
+        //     stateCopy.closedTickets.splice(ticketIdx, 1);
+        //     return stateCopy;
+        // case DELETE_TICKET_FAILURE:
+        //     return {...state, isDeletingTicket: false, deleteTicketError: action.payload};
         default:
             return state;
     }

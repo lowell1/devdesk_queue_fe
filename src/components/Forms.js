@@ -239,7 +239,7 @@ const ResolveFormik = withFormik({
     validationSchema: Yup.object().shape({
         solution: Yup.string().required(),
       }),
-      handleSubmit(values) {
+      handleSubmit(values, {props}) {
           console.log(values);
         //   axiosWithAuth().post("/tickets", values)
         //   .then((resp) => {
@@ -248,6 +248,7 @@ const ResolveFormik = withFormik({
         //   .catch((err) => {
         //       console.log("Failed to send ticket: ", err.response.data.message);
         //   });
+        props.resolveTicket(values.solution);
       }
   })(ResolveForm);
 
