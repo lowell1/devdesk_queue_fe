@@ -84,7 +84,9 @@ import {
                     {
                         props.object.assigned &&
                         <>
+
                             <Button onClick={reassignTicket}>Reassign</Button>
+                      
                             <Button onClick={toggle}>Resolve Ticket</Button>
                         </>
                     }
@@ -95,7 +97,7 @@ import {
                         </>
                     }
                     <Modal isOpen={modal} toggle={toggle} className="ticketModal">
-                        <ModalHeader toggle={toggle}>Resolve:{props.object.title}</ModalHeader>
+                        <ModalHeader toggle={toggle}>Resolve: {props.object.title}</ModalHeader>
                         <ModalBody>
                             <ResolveFormik resolveTicket={resolveTicket}/>
                         </ModalBody>
