@@ -9,10 +9,11 @@ import axiosWithAuth from "../axiosWithAuth";
 // import {reactLocalStorage} from "reactjs-localstorage";
 
 const LoginForm = ({ values, touched, errors, status }) =>{
-    // const [loginData,setLoginData] = useState([]);
-    // useEffect(() => {
-    //     status && setLoginData(loginData => [...loginData, status])
-    //   },[status])
+    const [loginError, setLoginError] = useState();
+
+    useEffect(() => {
+        status && setLoginError(status)
+      },[status])
     return(
         <div className="loginForm">
             <Form>
@@ -31,6 +32,9 @@ const LoginForm = ({ values, touched, errors, status }) =>{
                     <p className="error">{errors.password}</p>
                 )}
                 <button type="submit">Submit!</button>
+                {
+                    loginError && <p>Error logging in: {loginError}</p>
+                }
             </Form>
             <Link to="/register">Create new account.</Link>
 
@@ -66,14 +70,15 @@ const LoginFormik = withFormik({
         axiosWithAuth().post("/auth/login", values)
         .then(resp => {
             // console.log("Success:", resp.data);
-            console.log(resp.data);
+            // console.log(resp.data);
             localStorage.setItem("userInfo", JSON.stringify({name: resp.data.username, role: resp.data.role, id: resp.data.id}));
             localStorage.setItem("token", resp.data.token);
             props.setLoginStatus(true);
             props.history.push("/");
         })
         .catch(err => {
-            console.log("Error:",err);
+            // console.log("Error:",err);
+            setStatus(err.response.data.message);
         })
     }
   })(LoginForm);
@@ -219,7 +224,7 @@ const TicketFormik = withFormik({
         <div className="resolveForm">
             <Form>
                 
-                    <Field type="text" name="solution" placeholder="Enter solution here"/>
+                    <Field component="textarea" name="solution" placeholder="Enter solution here"/>
                 {touched.solution && errors.solution && (
                     <p className="error">{errors.solution}</p>
                 )}
