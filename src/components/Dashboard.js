@@ -57,16 +57,18 @@ const Dashboard = props => {
             {
                 props.userInfo.role === "student" &&
                 <div className="ticket-list">
-                    <div>
-                        <p>Open tickets:</p>    
+                    <p>Open tickets:</p> 
+                    <div className="card-list">   
                         {props.openTickets.map((ticketInfo,idx) => <TicketCard key={`open${idx}`} object={ticketInfo}/>)}
                     </div>
                     {
                         state.showClosedTickets &&
-                        <div>
+                        <>
                             <p>Answered tickets:</p>    
-                            {props.closedTickets.map((ticketInfo,idx) => <TicketCard key={`closed${idx}`} object={ticketInfo}/>)}
-                        </div>
+                            <div className="card-list">
+                                {props.closedTickets.map((ticketInfo,idx) => <TicketCard key={`closed${idx}`} object={ticketInfo}/>)}
+                            </div>
+                        </>
                     }
                 </div>
             }
@@ -75,22 +77,25 @@ const Dashboard = props => {
                 <div className="ticket-list">
                     {
                         state.showAssignedTickets &&
-                        <div>
+                        <>
                             <p>Assigned tickets:</p>
-                            {
-                                props.assignedTickets.map((ticketInfo,idx) => 
-                                    (state.showClosedTickets || !ticketInfo.solution)
-                                    ? <TicketHelperCard key={`assigned${idx}`} object={ticketInfo}/>
-                                    : null
-                                )
-                            }
-                
-                        </div>
+                            <div className="card-list">
+                                {
+                                    props.assignedTickets.map((ticketInfo,idx) => 
+                                        (state.showClosedTickets || !ticketInfo.solution)
+                                        ? <TicketHelperCard key={`assigned${idx}`} object={ticketInfo}/>
+                                        : null
+                                    )
+                                }
+                    
+                            </div>
+                        </>
                     }
                     {
                         state.showUnassignedTickets &&
-                            <div>
-                                <p>Unassigned tickets:</p>
+                        <>
+                            <p>Unassigned tickets:</p>
+                            <div className="card-list">
                                 {
                                     props.unassignedTickets.map((ticketInfo,idx) => 
                                     (state.showClosedTickets || !ticketInfo.solution)
@@ -98,6 +103,7 @@ const Dashboard = props => {
                                     : null)
                                 }                
                             </div>
+                        </>
                     }
                 </div>
             }

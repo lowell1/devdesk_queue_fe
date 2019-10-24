@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import {withFormik, Form, Field} from "formik";
 import {connect} from "react-redux";
 import {setLoginStatus} from "../actions";
+import {Button} from "reactstrap";
 import * as Yup from "yup";
 import axiosWithAuth from "../axiosWithAuth";
 
@@ -29,10 +30,8 @@ const LoginForm = ({ values, touched, errors, status }) =>{
                 {touched.password && errors.password && (
                     <p className="error">{errors.password}</p>
                 )}
-                <button type="submit">Submit!</button>
-                {
-                    loginError && <p>Error logging in: {loginError}</p>
-                }
+                <Button type="submit" color="primary">Login</Button>
+                {loginError && <p>Error logging in: {loginError}</p>}
             </Form>
             <Link to="/register">Create new account.</Link>
         </div>
@@ -85,7 +84,7 @@ const LoginFormik = withFormik({
                 {touched.password && errors.password && (
                     <p className="error">{errors.password}</p>
                 )}
-                <br/><br/>
+                
                 <Field component="select" className="role-select" name="role">
                     <option>Choose a role.</option>
                     <option value="student">Student</option>
@@ -95,7 +94,7 @@ const LoginFormik = withFormik({
                     <p className="error">{errors.role}</p>
                 )}
                 <br/><br/>
-                <button type="submit">Create Account</button>
+                <Button type="submit" color="primary">Create Account</Button>
                 {registerError && <p>Error registering account: {registerError}</p>}
             </Form>
         </div>
@@ -163,7 +162,7 @@ const RegisterFormik = withFormik({
                         <p className="error">{errors.category}</p>
                     )
                 }
-                <button type="submit">Create new ticket.</button>
+                <Button type="submit" color="primary">Create new ticket.</Button>
             </Form>
 
 
@@ -210,7 +209,7 @@ const TicketFormik = withFormik({
                 {touched.solution && errors.solution && (
                     <p className="error">{errors.solution}</p>
                 )}
-                <button type="submit">Resolve</button>
+                <Button type="submit" color="primary">Resolve</Button>
             </Form>
 
 
