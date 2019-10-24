@@ -32,7 +32,7 @@ const TicketHelperCard = (props)=>{
                         props.object.assigned &&
                         <>
                             <Button>Reassign</Button>
-                            <Button>Resolve Ticket</Button>
+                            <Button onClick={toggle}>Resolve Ticket</Button>
                         </>
                     }
                     {
@@ -42,7 +42,7 @@ const TicketHelperCard = (props)=>{
                         </>
                     }
                     <Modal isOpen={modal} toggle={toggle} className="ticketModal">
-                        <ModalHeader toggle={toggle}>Resolve:{props.object.title}</ModalHeader>
+                        <ModalHeader toggle={toggle}>Resolve: {props.object.title}</ModalHeader>
                         <ModalBody>
                             <ResolveFormik/>
                         </ModalBody>
