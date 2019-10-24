@@ -67,8 +67,8 @@ const Dashboard = props => {
             {
                 props.userInfo.role === "student" &&
                 <div className="ticket-list">
-                    <div>
-                        <p>Open tickets:</p>    
+                    <p>Open tickets:</p> 
+                    <div className="card-list">   
                         {props.openTickets.map((ticketInfo,idx) => <TicketCard key={`open${idx}`} object={ticketInfo}/>)}
                     </div>
                     <div>
@@ -80,13 +80,13 @@ const Dashboard = props => {
             {
                 props.userInfo.role === "helper" &&
                 <div className="ticket-list">
-                    <div>
-                        <p>Assigned tickets:</p>
+                    <p>Assigned tickets:</p>
+                    <div className="card-list">
                         {/* change to TicketHelperCard */}
                         {props.assignedTickets.map((ticketInfo,idx) => <TicketHelperCard key={`assigned${idx}`} object={ticketInfo}/>)}
                     </div>
-                    <div>
-                        <p>Unassigned tickets:</p>
+                    <p>Unassigned tickets:</p>
+                    <div className="card-list">
                         {props.unassignedTickets.map((ticketInfo,idx) => <TicketHelperCard key={`unassigned${idx}`} object={ticketInfo}/>)}
                     </div>
                 </div>
