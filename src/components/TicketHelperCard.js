@@ -50,6 +50,22 @@ import {
         })
     }
 
+    const postSolution = ()=>{
+        console.log("props.object=",props.object)
+        if(props.object.solution){
+            return(
+                <div className="text-section">
+                    {/* <CardSubtitle>Solution:</CardSubtitle> */}
+                    <CardText>Solution: {props.object.solution}</CardText>
+                </div>
+            )
+        } else{
+            return(
+                <CardText>There is no solution currently.</CardText>
+            )
+        }
+    }
+
     return(
         <div>
             <Card>
@@ -64,6 +80,7 @@ import {
                         <CardSubtitle>What they tried:</CardSubtitle>
                         <CardText>{props.object.tried}</CardText>
                     </div>
+                    {postSolution()}
                     {
                         props.object.assigned &&
                         <>

@@ -24,11 +24,12 @@ const TicketCard = (props)=>{
 
 
     const postSolution = ()=>{
-        if(props.object.resolved === true){
+        console.log("props.object=",props.object)
+        if(props.object.solution){
             return(
                 <div className="text-section">
-                    <CardSubtitle>Solution:</CardSubtitle>
-                    <CardText>{props.object.solution}</CardText>
+                    {/* <CardSubtitle>Solution:</CardSubtitle> */}
+                    <CardText>Solution: {props.object.solution}</CardText>
                 </div>
             )
         } else{
