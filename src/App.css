@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+
 }
 
 .App .links{
@@ -18,17 +19,28 @@
   align-items: center;
 }
 
+/* hui made some changes below */
 .App .loginForm{
   display: flex;
-  justify-content: center;
   flex-direction: column;
+  align-items: flex-start;
   width: 30%;
+  margin: 0 auto;
 }
+
 .App .loginForm form{
   display: flex;
-  justify-content: flex-start;
   flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  background: #39bfff;
+}
 
+
+.loginForm form label{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .App-logo {
