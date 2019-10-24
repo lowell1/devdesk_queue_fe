@@ -1,14 +1,18 @@
 import React, {useState,useEffect} from "react";
 import {Link} from "react-router-dom";
 import {withFormik, Form, Field} from "formik";
+import {connect} from "react-redux";
+import {setLoginStatus} from "../actions";
 import * as Yup from "yup";
-import axios from "axios";
+// import axios from "axios";
+import axiosWithAuth from "../axiosWithAuth";
+// import {reactLocalStorage} from "reactjs-localstorage";
 
 const LoginForm = ({ values, touched, errors, status }) =>{
-    const [loginData,setLoginData] = useState([]);
-    useEffect(() => {
-        status && setLoginData(loginData => [...loginData, status])
-      },[status])
+    // const [loginData,setLoginData] = useState([]);
+    // useEffect(() => {
+    //     status && setLoginData(loginData => [...loginData, status])
+    //   },[status])
     return(
         <div className="loginForm">
             <Form>
@@ -26,21 +30,21 @@ const LoginForm = ({ values, touched, errors, status }) =>{
                 {touched.password && errors.password && (
                     <p className="error">{errors.password}</p>
                 )}
+                <button type="submit">Submit!</button>
             </Form>
-            <button type="submit">Submit!</button>
             <Link to="/register">Create new account.</Link>
 
-            {loginData.map(user => (
+            {/* {loginData.map(user => (
                 <ul key={user.id}>
                 <li>Name: {user.username}</li>
                 <li>Password: {user.password}</li>
                 </ul>
-            ))}
+            ))} */}
 
         </div>
     )
 }
-const loginFormik = withFormik({
+const LoginFormik = withFormik({
     mapPropsToValues({ username, password}) {
       return {
         username: username || "",
@@ -51,11 +55,27 @@ const loginFormik = withFormik({
         username: Yup.string().required(),
         password:Yup.string().required()
       }),
-    handleSubmit(values, {setStatus}) { 
-        axios.post('https://reqres.in/api/users/', values) 
-              .then(res => { setStatus(res.data); }) 
-              .catch(err => console.log(err.response));
-        }
+    handleSubmit(values, {setStatus, props}) { 
+        // axios.post('https://reqres.in/api/users/', values) 
+        //       .then(res => { 
+        //           setStatus(res.data); 
+        //           console.log(res.data);
+        //         }) 
+        //       .catch(err => console.log(err.response));
+        // }
+        axiosWithAuth().post("/auth/login", values)
+        .then(resp => {
+            // console.log("Success:", resp.data);
+            console.log(resp.data);
+            localStorage.setItem("userInfo", JSON.stringify({name: resp.data.username, role: resp.data.role, id: resp.data.id}));
+            localStorage.setItem("token", resp.data.token);
+            props.setLoginStatus(true);
+            props.history.push("/");
+        })
+        .catch(err => {
+            console.log("Error:",err);
+        })
+    }
   })(LoginForm);
 
   const RegisterForm = ({ values, touched, errors, status }) =>{
@@ -80,19 +100,22 @@ const loginFormik = withFormik({
                 {touched.password && errors.password && (
                     <p className="error">{errors.password}</p>
                 )}
-                <Field component="select" className="food-select" name="diet">
+                <br/><br/>
+                <Field component="select" className="role-select" name="role">
                     <option>Choose a role.</option>
                     <option value="student">Student</option>
                     <option value="helper">Helper</option>
                 </Field>
+                {touched.role && errors.role && (
+                    <p className="error">{errors.role}</p>
+                )}
+                <br/><br/>
+                <button type="submit">Create Account</button>
             </Form>
-            <button type="submit">Create Account</button>
-
-
         </div>
     )
 }
-const registerFormik = withFormik({
+const RegisterFormik = withFormik({
     mapPropsToValues({ username, password,role}) {
       return {
         username: username || "",
@@ -102,8 +125,20 @@ const registerFormik = withFormik({
     },
     validationSchema: Yup.object().shape({
         username: Yup.string().required(),
-        password:Yup.string().required()
-      })
+        password:Yup.string().required(),
+        role:Yup.string().required()
+      }),
+      handleSubmit(values, {setStatus, props}) { 
+          console.log("values = ", values);
+        axiosWithAuth().post("/auth/register", values)
+        .then(resp => {
+            console.log(resp.data);
+            props.history.push("/login");
+        })
+        .catch(err => {
+            console.log("Error:",err.response.data.message);
+        })
+    }
   })(RegisterForm);
 
   const TicketForm = ({ values, touched, errors, status }) =>{
@@ -116,39 +151,113 @@ const registerFormik = withFormik({
             <Form>
                 
                     <Field type="text" name="title" placeholder="Title"/>
-                {touched.username && errors.username && (
-                    <p className="error">{errors.username}</p>
+                {touched.title && errors.title && (
+                    <p className="error">{errors.title}</p>
                 )}
-                    <Field type="password" name="password"/>
-                {touched.password && errors.password && (
-                    <p className="error">{errors.password}</p>
+                    <Field type="text" name="description" placeholder="Description of your problem"/>
+                {touched.description && errors.description && (
+                    <p className="error">{errors.description}</p>
                 )}
-                <Field component="select" className="food-select" name="diet">
-                    <option>Choose a role.</option>
-                    <option value="student">Student</option>
-                    <option value="helper">Helper</option>
+                <Field type="text" name="tried"placeholder="What have you tried?"/>
+                {touched.tried && errors.tried && (
+                    <p className="error">{errors.tried}</p>
+                )}
+                <Field component="select" className="category-select" name="category">
+                    <option value="">Choose a category.</option>
+                    <option value="React">React</option>
+                    <option value="HTML">HTML</option>
+                    <option value="CSS">CSS</option>
+                    <option value="Redux">Redux</option>
+                    <option value="Node">Node</option>
+                    <option value="Javascript">Javascript</option>
                 </Field>
+                {
+                    touched.category && errors.category && (
+                        <p className="error">{errors.category}</p>
+                    )
+                }
+                <button type="submit">Create new ticket.</button>
             </Form>
-            <button type="submit">Create new ticket.</button>
 
 
         </div>
     )
 }
-const ticketFormik = withFormik({
-    mapPropsToValues({ username, password,role}) {
+const TicketFormik = withFormik({
+    mapPropsToValues({ title, description,tried,category}) {
       return {
-        username: username || "",
-        password: password || "",
-        role: role || ""
+        title: title || "",
+        description: description || "",
+        tried: tried || "",
+        category: category || ""
       };
     },
     validationSchema: Yup.object().shape({
-        username: Yup.string().required(),
-        password:Yup.string().required()
-      })
-  })(RegisterForm);
+        title: Yup.string().required(),
+        description:Yup.string().required(),
+        tried: Yup.string().required(),
+        category: Yup.string().required()
+      }),
+      handleSubmit(values) {
+          console.log(values);
+          axiosWithAuth().post("/tickets", values)
+          .then((resp) => {
+              console.log("success", resp);
+          })
+          .catch((err) => {
+              console.log("Failed to send ticket: ", err.response.data.message);
+          });
+      }
+  })(TicketForm);
+
+  const ResolveForm = ({ values, touched, errors, status }) =>{
+    const [resolveData,setResolveData] = useState([]);
+    useEffect(() => {
+        status && setResolveData(resolveData => [...resolveData, status])
+      },[status])
+    return(
+        <div className="resolveForm">
+            <Form>
+                
+                    <Field type="text" name="solution" placeholder="Enter solution here"/>
+                {touched.solution && errors.solution && (
+                    <p className="error">{errors.solution}</p>
+                )}
+                <button type="submit">Resolve</button>
+            </Form>
 
 
+        </div>
+    )
+}
+const ResolveFormik = withFormik({
+    mapPropsToValues({ solution}) {
+      return {
+        solution: solution || "",
+      };
+    },
+    validationSchema: Yup.object().shape({
+        solution: Yup.string().required(),
+      }),
+      handleSubmit(values, {props}) {
+          console.log(values);
+        //   axiosWithAuth().post("/tickets", values)
+        //   .then((resp) => {
+        //       console.log("success", resp);
+        //   })
+        //   .catch((err) => {
+        //       console.log("Failed to send ticket: ", err.response.data.message);
+        //   });
+        props.resolveTicket(values.solution);
+      }
+  })(ResolveForm);
 
-export {loginFormik,registerFormik,ticketFormik};
+
+const ConnectLoginFormik = connect(null, {setLoginStatus})(LoginFormik);
+
+export {
+    ConnectLoginFormik,
+    RegisterFormik,
+    TicketFormik,
+    ResolveFormik
+};
