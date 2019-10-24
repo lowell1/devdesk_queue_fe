@@ -25,7 +25,6 @@ const TicketCard = (props)=>{
 
 
     const postSolution = ()=>{
-        console.log("props.object=",props.object)
         if(props.object.solution){
             return(
                 <CardBody>
