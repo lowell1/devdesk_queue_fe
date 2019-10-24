@@ -4,9 +4,7 @@ import {withFormik, Form, Field} from "formik";
 import {connect} from "react-redux";
 import {setLoginStatus} from "../actions";
 import * as Yup from "yup";
-// import axios from "axios";
 import axiosWithAuth from "../axiosWithAuth";
-// import {reactLocalStorage} from "reactjs-localstorage";
 
 const LoginForm = ({ values, touched, errors, status }) =>{
     const [loginError, setLoginError] = useState();
@@ -37,14 +35,6 @@ const LoginForm = ({ values, touched, errors, status }) =>{
                 }
             </Form>
             <Link to="/register">Create new account.</Link>
-
-            {/* {loginData.map(user => (
-                <ul key={user.id}>
-                <li>Name: {user.username}</li>
-                <li>Password: {user.password}</li>
-                </ul>
-            ))} */}
-
         </div>
     )
 }
@@ -60,36 +50,26 @@ const LoginFormik = withFormik({
         password:Yup.string().required()
       }),
     handleSubmit(values, {setStatus, props}) { 
-        // axios.post('https://reqres.in/api/users/', values) 
-        //       .then(res => { 
-        //           setStatus(res.data); 
-        //           console.log(res.data);
-        //         }) 
-        //       .catch(err => console.log(err.response));
-        // }
         axiosWithAuth().post("/auth/login", values)
         .then(resp => {
-            // console.log("Success:", resp.data);
-            // console.log(resp.data);
             localStorage.setItem("userInfo", JSON.stringify({name: resp.data.username, role: resp.data.role, id: resp.data.id}));
             localStorage.setItem("token", resp.data.token);
             props.setLoginStatus(true);
             props.history.push("/");
         })
         .catch(err => {
-            // console.log("Error:",err);
             setStatus(err.response.data.message);
         })
     }
   })(LoginForm);
 
   const RegisterForm = ({ values, touched, errors, status }) =>{
-    const [registerData,setRegisterData] = useState([]);
+    const [registerError,setRegisterError] = useState();
     useEffect(() => {
-        status && setRegisterData(registerData => [...registerData, status])
+        status && setRegisterError(status);
       },[status])
     return(
-        <div className="registerForm">
+        <div className="loginForm">
             <Form>
                 <label>
                     <h2>Username:</h2>
@@ -116,6 +96,7 @@ const LoginFormik = withFormik({
                 )}
                 <br/><br/>
                 <button type="submit">Create Account</button>
+                {registerError && <p>Error registering account: {registerError}</p>}
             </Form>
         </div>
     )
@@ -129,7 +110,7 @@ const RegisterFormik = withFormik({
       };
     },
     validationSchema: Yup.object().shape({
-        username: Yup.string().required(),
+        username: Yup.string()/*.required()*/,
         password:Yup.string().required(),
         role:Yup.string().required()
       }),
@@ -137,11 +118,12 @@ const RegisterFormik = withFormik({
           console.log("values = ", values);
         axiosWithAuth().post("/auth/register", values)
         .then(resp => {
-            console.log(resp.data);
+            // console.log(resp.data);
             props.history.push("/login");
         })
         .catch(err => {
-            console.log("Error:",err.response.data.message);
+            setStatus(err.response.data.message);
+            // console.log(err);
         })
     }
   })(RegisterForm);
