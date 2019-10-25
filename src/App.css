@@ -1,6 +1,4 @@
-.App {
-  text-align: center;
-}
+
 
 .App .links{
   display: flex;
@@ -18,21 +16,75 @@
   align-items: center;
 }
 
+/* hui made some changes below */
+
 .App .loginForm{
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  width: 30%;
+  align-items: center;
+  width: 500px;
+  margin: 0 auto;
+
+  position: absolute; /* centering log-in box */
+  top: 25%;
+  transform: translateY(-50%);
+  left: 50%;
+  transform: translateX(-50%);
+
 }
+
 .App .loginForm form{
   display: flex;
-  justify-content: flex-start;
   flex-direction: column;
-
+  padding: 20px;
+  width: 50%;
+  border-radius: 10px;
+  background: #39bfff;
 }
 
-.App-logo {
-  height: 40vmin;
+
+.loginForm form label{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color:white;
+}
+.App .loginForm form button{
+  width:100%;
+  
+}
+.App .text-area{
+  width:100%;
+}
+
+.App .ticket-list .card-list{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.App .dashboard{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.App .dashboard h3,p{
+  text-align: center;
+}
+.App .ticket{
+  
+  margin:2rem;
+  width: 30%;
+}
+.App .ticket h1{
+  font-size: 2rem;
+  
+}
+.App .modal .ticketForm{
+  display: flex;
+  flex-direction: column;
 }
 
 .App-header {
@@ -46,10 +98,28 @@
   color: white;
 }
 
-.App-link {
-  color: #09d3ac;
+
+.ticket-maker {
+  text-align: center;
 }
 
+.ticket-maker h1 {
+  margin-bottom: 2rem;
+}
+
+.middle-screen {
+  position: absolute;
+  /* display: inline; */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
 body {
-  background-color: brown;
+
+  background-image: url("./img/snow.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
 }

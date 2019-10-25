@@ -6,7 +6,8 @@ import axiosWithAuth from "../axiosWithAuth";
 
 import {
     Card, CardText, CardBody,
-    CardTitle, CardSubtitle, Button
+    CardTitle, CardSubtitle, Button,CardHeader,
+    CardFooter
   } from 'reactstrap';
 
 const TicketCard = (props)=>{
@@ -24,13 +25,12 @@ const TicketCard = (props)=>{
 
 
     const postSolution = ()=>{
-        console.log("props.object=",props.object)
         if(props.object.solution){
             return(
-                <div className="text-section">
-                    {/* <CardSubtitle>Solution:</CardSubtitle> */}
-                    <CardText>Solution: {props.object.solution}</CardText>
-                </div>
+                <CardBody>
+                    <CardSubtitle>Solution:</CardSubtitle> 
+                    <CardText>{props.object.solution}</CardText>
+                </CardBody>
             )
         } else{
             return(
@@ -40,23 +40,33 @@ const TicketCard = (props)=>{
     }
 
     return(
-        <div>
+        <div className="ticket">
             <Card>
+                <CardHeader>
+                    <CardTitle>{props.object.title}</CardTitle>
+                    <CardSubtitle>Category: {props.object.category}</CardSubtitle>
+                </CardHeader>
                 <CardBody>
                     {/* <Button onClick={() => props.deleteTicket(props.object.id, props.object.resolved)}>Delete</Button> */}
-                    <Button onClick={() => deleteTicket()}>Delete</Button>
-                    <CardTitle>{props.object.title}</CardTitle>
-                    <CardSubtitle>Category:{props.object.category}</CardSubtitle>
+                    <CardBody>
                     <div className="text-section">
                         <CardSubtitle>Description:</CardSubtitle>
                         <CardText>{props.object.description}</CardText>
                     </div>
+                    </CardBody>
+                    <CardBody>
                     <div className="text-section">
                         <CardSubtitle>What they tried:</CardSubtitle>
                         <CardText>{props.object.tried}</CardText>
                     </div>
+                    </CardBody>
+                    <CardBody>
                     {postSolution()}
+                    </CardBody>
                 </CardBody>
+                <CardFooter>
+                    <Button color="danger" onClick={() => deleteTicket()}>Delete</Button>
+                </CardFooter>
             </Card>
         </div>
     )

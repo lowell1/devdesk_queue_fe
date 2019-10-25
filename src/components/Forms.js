@@ -3,16 +3,16 @@ import {Link} from "react-router-dom";
 import {withFormik, Form, Field} from "formik";
 import {connect} from "react-redux";
 import {setLoginStatus} from "../actions";
+import {Button} from "reactstrap";
 import * as Yup from "yup";
-// import axios from "axios";
 import axiosWithAuth from "../axiosWithAuth";
-// import {reactLocalStorage} from "reactjs-localstorage";
 
 const LoginForm = ({ values, touched, errors, status }) =>{
-    // const [loginData,setLoginData] = useState([]);
-    // useEffect(() => {
-    //     status && setLoginData(loginData => [...loginData, status])
-    //   },[status])
+    const [loginError, setLoginError] = useState();
+
+    useEffect(() => {
+        status && setLoginError(status)
+      },[status])
     return(
         <div className="loginForm">
             <Form>
@@ -30,17 +30,10 @@ const LoginForm = ({ values, touched, errors, status }) =>{
                 {touched.password && errors.password && (
                     <p className="error">{errors.password}</p>
                 )}
-                <button type="submit">Submit!</button>
+                <Button type="submit" color="primary">Login</Button>
+                {loginError && <p>Error logging in: {loginError}</p>}
             </Form>
             <Link to="/register">Create new account.</Link>
-
-            {/* {loginData.map(user => (
-                <ul key={user.id}>
-                <li>Name: {user.username}</li>
-                <li>Password: {user.password}</li>
-                </ul>
-            ))} */}
-
         </div>
     )
 }
@@ -56,35 +49,26 @@ const LoginFormik = withFormik({
         password:Yup.string().required()
       }),
     handleSubmit(values, {setStatus, props}) { 
-        // axios.post('https://reqres.in/api/users/', values) 
-        //       .then(res => { 
-        //           setStatus(res.data); 
-        //           console.log(res.data);
-        //         }) 
-        //       .catch(err => console.log(err.response));
-        // }
         axiosWithAuth().post("/auth/login", values)
         .then(resp => {
-            // console.log("Success:", resp.data);
-            console.log(resp.data);
             localStorage.setItem("userInfo", JSON.stringify({name: resp.data.username, role: resp.data.role, id: resp.data.id}));
             localStorage.setItem("token", resp.data.token);
             props.setLoginStatus(true);
             props.history.push("/");
         })
         .catch(err => {
-            console.log("Error:",err);
+            setStatus(err.response.data.message);
         })
     }
   })(LoginForm);
 
   const RegisterForm = ({ values, touched, errors, status }) =>{
-    const [registerData,setRegisterData] = useState([]);
+    const [registerError,setRegisterError] = useState();
     useEffect(() => {
-        status && setRegisterData(registerData => [...registerData, status])
+        status && setRegisterError(status);
       },[status])
     return(
-        <div className="registerForm">
+        <div className="loginForm middle-screen">
             <Form>
                 <label>
                     <h2>Username:</h2>
@@ -100,7 +84,7 @@ const LoginFormik = withFormik({
                 {touched.password && errors.password && (
                     <p className="error">{errors.password}</p>
                 )}
-                <br/><br/>
+                
                 <Field component="select" className="role-select" name="role">
                     <option>Choose a role.</option>
                     <option value="student">Student</option>
@@ -110,7 +94,8 @@ const LoginFormik = withFormik({
                     <p className="error">{errors.role}</p>
                 )}
                 <br/><br/>
-                <button type="submit">Create Account</button>
+                <Button type="submit" color="primary">Create Account</Button>
+                {registerError && <p>Error registering account: {registerError}</p>}
             </Form>
         </div>
     )
@@ -124,7 +109,7 @@ const RegisterFormik = withFormik({
       };
     },
     validationSchema: Yup.object().shape({
-        username: Yup.string().required(),
+        username: Yup.string()/*.required()*/,
         password:Yup.string().required(),
         role:Yup.string().required()
       }),
@@ -132,11 +117,12 @@ const RegisterFormik = withFormik({
           console.log("values = ", values);
         axiosWithAuth().post("/auth/register", values)
         .then(resp => {
-            console.log(resp.data);
+            // console.log(resp.data);
             props.history.push("/login");
         })
         .catch(err => {
-            console.log("Error:",err.response.data.message);
+            setStatus(err.response.data.message);
+            // console.log(err);
         })
     }
   })(RegisterForm);
@@ -154,14 +140,17 @@ const RegisterFormik = withFormik({
                 {touched.title && errors.title && (
                     <p className="error">{errors.title}</p>
                 )}
-                    <Field type="text" name="description" placeholder="Description of your problem"/>
+                <br></br>
+                    <Field component="textarea" name="description" placeholder="Description of your problem"/>
                 {touched.description && errors.description && (
                     <p className="error">{errors.description}</p>
                 )}
-                <Field type="text" name="tried"placeholder="What have you tried?"/>
+                <br></br>
+                <Field component="textarea" name="tried"placeholder="What have you tried?"/>
                 {touched.tried && errors.tried && (
                     <p className="error">{errors.tried}</p>
                 )}
+                <br></br>
                 <Field component="select" className="category-select" name="category">
                     <option value="">Choose a category.</option>
                     <option value="React">React</option>
@@ -176,7 +165,8 @@ const RegisterFormik = withFormik({
                         <p className="error">{errors.category}</p>
                     )
                 }
-                <button type="submit">Create new ticket.</button>
+                <br></br>
+                <Button type="submit" color="primary">Create new ticket.</Button>
             </Form>
 
 
@@ -219,11 +209,12 @@ const TicketFormik = withFormik({
         <div className="resolveForm">
             <Form>
                 
-                    <Field type="text" name="solution" placeholder="Enter solution here"/>
+                    <Field className="text-area" component="textarea" name="solution" placeholder="Enter solution here"/>
                 {touched.solution && errors.solution && (
                     <p className="error">{errors.solution}</p>
                 )}
-                <button type="submit">Resolve</button>
+                <br></br>
+                <Button type="submit" color="primary">Resolve</Button>
             </Form>
 
 
