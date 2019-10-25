@@ -98,6 +98,22 @@
   color: white;
 }
 
+
+.ticket-maker {
+  text-align: center;
+}
+
+.ticket-maker h1 {
+  margin-bottom: 2rem;
+}
+
+.middle-screen {
+  position: absolute;
+  /* display: inline; */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
 body {
 
   background-image: url("./img/snow.jpg");
@@ -105,4 +121,5 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+
 }

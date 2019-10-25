@@ -68,7 +68,7 @@ const LoginFormik = withFormik({
         status && setRegisterError(status);
       },[status])
     return(
-        <div className="loginForm">
+        <div className="loginForm middle-screen">
             <Form>
                 <label>
                     <h2>Username:</h2>
