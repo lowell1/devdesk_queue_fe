@@ -17,12 +17,20 @@
 }
 
 /* hui made some changes below */
+
 .App .loginForm{
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 500px;
   margin: 0 auto;
+
+  position: absolute; /* centering log-in box */
+  top: 25%;
+  transform: translateY(-50%);
+  left: 50%;
+  transform: translateX(-50%);
+
 }
 
 .App .loginForm form{
@@ -44,6 +52,9 @@
 .App .loginForm form button{
   width:100%;
   
+}
+.App .text-area{
+  width:100%;
 }
 
 .App .ticket-list .card-list{
@@ -67,6 +78,14 @@
   margin:2rem;
   width: 30%;
 }
+.App .ticket h1{
+  font-size: 2rem;
+  
+}
+.App .modal .ticketForm{
+  display: flex;
+  flex-direction: column;
+}
 
 .App-header {
   background-color: #282c34;
@@ -78,6 +97,7 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
 
 .ticket-maker {
   text-align: center;
@@ -93,4 +113,13 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+body {
+
+  background-image: url("./img/snow.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
 }

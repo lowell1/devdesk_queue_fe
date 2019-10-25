@@ -20,7 +20,7 @@ const TicketMaker = () => {
         <div className="middle-screen ticket-maker">
             <h1>Open new ticket</h1>
             {/* <TicketCard object={testObj}/> */}
-            <Button onClick={toggle}>Create Ticket</Button>
+            <Button onClick={toggle} color="primary">Create Ticket</Button>
             <Modal isOpen={modal} toggle={toggle} className="ticketModal">
                 <ModalHeader toggle={toggle}>Create a Ticket</ModalHeader>
                 <ModalBody>
