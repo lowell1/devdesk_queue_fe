@@ -9,7 +9,7 @@ const Dashboard = props => {
        showClosedTickets: true, showAssignedTickets: true, showUnassignedTickets: false
     });
 
-    console.log(props.closedTickets);
+    // console.log(props.closedTickets);
 
     const updateTickets = props.updateTickets;
 
@@ -26,7 +26,7 @@ const Dashboard = props => {
             <h3>{props.userInfo.name}'s dashboard</h3>
             {
                  props.userInfo.role === "helper" &&
-                 <div class="display-options">
+                 <div className="display-options">
                     <label>
                         Show assigned Tickets
                         <input type="checkbox" name="showAssignedTickets" checked={state.showAssignedTickets} 
@@ -46,7 +46,7 @@ const Dashboard = props => {
             }
             {
                  props.userInfo.role === "student" &&
-                 <div class="display-options">
+                 <div className="display-options">
                     <label>
                         Show answered tickets
                         <input type="checkbox" name="showClosedTickets" checked={state.showClosedTickets}

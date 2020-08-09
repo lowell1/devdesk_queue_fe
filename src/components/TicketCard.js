@@ -15,12 +15,12 @@ const TicketCard = (props)=>{
         axiosWithAuth().delete(`/users/tickets/${props.object.ticket_id}`)
         .then(resp => {
             console.log(resp);
+            props.updateTickets();
         })
         .catch(err => {
             console.log(err.response.data.message);
         })
 
-        props.updateTickets();
     }
 
 
