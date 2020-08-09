@@ -76,12 +76,12 @@
 .App .ticket{
   
   margin:2rem;
-  width: 30%;
+  /* width: 30%; */
 }
-.App .ticket h1{
+/* .App .ticket h1{
   font-size: 2rem;
   
-}
+} */
 .App .modal .ticketForm{
   display: flex;
   flex-direction: column;

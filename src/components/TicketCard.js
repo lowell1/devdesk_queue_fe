@@ -48,21 +48,15 @@ const TicketCard = (props)=>{
                 </CardHeader>
                 <CardBody>
                     {/* <Button onClick={() => props.deleteTicket(props.object.id, props.object.resolved)}>Delete</Button> */}
-                    <CardBody>
                     <div className="text-section">
                         <CardSubtitle>Description:</CardSubtitle>
                         <CardText>{props.object.description}</CardText>
                     </div>
-                    </CardBody>
-                    <CardBody>
                     <div className="text-section">
                         <CardSubtitle>What they tried:</CardSubtitle>
                         <CardText>{props.object.tried}</CardText>
                     </div>
-                    </CardBody>
-                    <CardBody>
                     {postSolution()}
-                    </CardBody>
                 </CardBody>
                 <CardFooter>
                     <Button color="danger" onClick={() => deleteTicket()}>Delete</Button>
