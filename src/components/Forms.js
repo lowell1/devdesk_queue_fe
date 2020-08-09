@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from "react";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import {withFormik, Form, Field} from "formik";
 import {connect} from "react-redux";
 import {setLoginStatus} from "../actions";
@@ -173,7 +173,7 @@ const RegisterFormik = withFormik({
         </div>
     )
 }
-const TicketFormik = withFormik({
+const TicketFormik = withRouter(withFormik({
     mapPropsToValues({ title, description,tried,category}) {
       return {
         title: title || "",
@@ -188,17 +188,18 @@ const TicketFormik = withFormik({
         tried: Yup.string().required(),
         category: Yup.string().required()
       }),
-      handleSubmit(values) {
-          console.log(values);
+      handleSubmit(values, {props}) {
+        //   console.log(values);
           axiosWithAuth().post("/tickets", values)
           .then((resp) => {
-              console.log("success", resp);
+        //       console.log("success", resp);
+            props.history.push("/");
           })
           .catch((err) => {
-              console.log("Failed to send ticket: ", err.response.data.message);
+              console.log("Failed to send ticket: ", err.response ? err.response.data.message : err);
           });
       }
-  })(TicketForm);
+  })(TicketForm));
 
   const ResolveForm = ({ values, touched, errors, status }) =>{
     const [resolveData,setResolveData] = useState([]);
